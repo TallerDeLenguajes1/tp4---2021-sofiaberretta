@@ -27,7 +27,28 @@ int main()
     arregloRealizadas = (Tarea**)malloc(sizeof(Tarea*)*cantTareas);
     moverTareas(arregloTareas, arregloRealizadas, cantTareas);
 
+    printf("\n___________________________________________\n");
+    printf("\n TAREAS PENDIENTES: ");
+    for (int i = 0; i < cantTareas; i++)
+    {
+        if ((*(arregloTareas+i)) !=NULL)
+        {
+            mostrarTarea((*(arregloTareas+i)));
+        }
+    }
 
+    printf("\n___________________________________________\n");
+    printf("\n TAREAS REALIZADAS: ");
+    for (int i = 0; i < cantTareas; i++)
+    {
+        if ((*(arregloRealizadas+i)) !=NULL)
+        {
+            mostrarTarea((*(arregloRealizadas+i)));
+        }
+        
+    }
+
+    return 0;
 }
 
 void cargarTareas(Tarea **arreglo, int cantidad)
@@ -43,6 +64,7 @@ void cargarTareas(Tarea **arreglo, int cantidad)
         gets((*(arreglo + i))->Descripcion);
 
         (*(arreglo + i))->Duracion = 10 + rand()% 90;
+        
     }
     
 }
@@ -54,6 +76,7 @@ void mostrarTarea(Tarea *arreglo)
     printf("\nID: %d", arreglo->TareaID);
     printf("\nDescripcion: %s", arreglo->Descripcion);
     printf("\nDuracion: %d", arreglo->Duracion);
+    printf("\n");
 }
 
 void moverTareas(Tarea **pendientes, Tarea **realizadas, int cantidad)
