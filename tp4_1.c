@@ -12,11 +12,12 @@ typedef struct Tarea {
 void cargarTareas(Tarea **arreglo, int cantidad);
 void mostrarTarea(Tarea *arreglo);
 void moverTareas(Tarea **pendientes, Tarea **realizadas, int cantidad);
+void BuscarTarea(Tarea **arreglo, int idBuscado, int cantidad);
 
 int main()
 {
     srand(time(NULL));
-    int cantTareas;
+    int cantTareas, idBuscado;
     Tarea **arregloTareas, **arregloRealizadas;
 
     printf("\n Ingrese la cantidad de tareas (max 5): ");
@@ -24,6 +25,8 @@ int main()
     arregloTareas = (Tarea**)malloc(sizeof(Tarea*)*cantTareas);
     cargarTareas(arregloTareas, cantTareas);
 
+    /*
+    //marcar tareas como realizadas
     arregloRealizadas = (Tarea**)malloc(sizeof(Tarea*)*cantTareas);
     moverTareas(arregloTareas, arregloRealizadas, cantTareas);
 
@@ -47,6 +50,12 @@ int main()
         }
         
     }
+    */
+
+    printf("Ingrese el ID de la tarea que desea buscar (de 0 a %d): ", cantTareas - 1);
+    scanf("%d", &idBuscado);
+
+    BuscarTarea(arregloTareas, idBuscado, cantTareas);
 
     return 0;
 }
@@ -97,6 +106,20 @@ void moverTareas(Tarea **pendientes, Tarea **realizadas, int cantidad)
 
         }else{
             (*(realizadas + i)) = NULL;
+        }
+        
+    }
+    
+}
+
+void BuscarTarea(Tarea **arreglo, int idBuscado, int cantidad)
+{
+    for (int i = 0; i < cantidad; i++)
+    {
+        if ((*(arreglo + i))->TareaID == idBuscado)
+        {
+            printf("\n La tarea que esta buscando es:\n");
+            mostrarTarea((*(arreglo+i)));
         }
         
     }
