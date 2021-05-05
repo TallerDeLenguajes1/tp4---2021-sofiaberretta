@@ -12,21 +12,47 @@ typedef struct Tarea {
 void cargarTareas(Tarea **arreglo, int cantidad);
 void mostrarTarea(Tarea *arreglo);
 void moverTareas(Tarea **pendientes, Tarea **realizadas, int cantidad);
-void BuscarTarea(Tarea **arreglo, char *palabraClave, int cantidad);
+void BusquedaPorPalabra(Tarea **arreglo, char *palabraClave, int cantidad);
+void BusquedaPorID(Tarea **arreglo, int idBuscado, int cantidad);
+
+//----------------------------------------------------------------
 
 int main()
 {
     srand(time(NULL));
-    int cantTareas;
+    int cantTareas, idBuscado;
     Tarea **arregloTareas, **arregloRealizadas;
     char palabraClave[20];
 
+    //crear tareas
     printf("\n Ingrese la cantidad de tareas (max 5): ");
     scanf("%d", &cantTareas);
     arregloTareas = (Tarea**)malloc(sizeof(Tarea*)*cantTareas);
     cargarTareas(arregloTareas, cantTareas);
-    /*
+
+    //----------------------------------------------------------------
+
+    printf("\n___________________________________________\n");
+    printf("\n BUSQUEDA DE TAREAS: \n");
+
+    //por palabra
+    fflush(stdin);
+    printf("\n 1) Ingrese la palabra clave para buscar tarea: ");
+    gets(palabraClave);
+    BusquedaPorPalabra(arregloTareas, palabraClave, cantTareas);
+
+    //por id
+    printf("\n\n 2) Ingrese el ID de la tarea que desea buscar (de 0 a %d): ", cantTareas - 1);
+    scanf("%d", &idBuscado);
+    BusquedaPorID(arregloTareas, idBuscado, cantTareas);
+
+
+    //----------------------------------------------------------------
+
+    //marcar tareas como realizadas y mostrar
     arregloRealizadas = (Tarea**)malloc(sizeof(Tarea*)*cantTareas);
+    printf("\n___________________________________________\n");
+    printf("\n CHEQUEO DE TAREAS: \n");
     moverTareas(arregloTareas, arregloRealizadas, cantTareas);
 
     printf("\n___________________________________________\n");
@@ -49,16 +75,12 @@ int main()
         }
         
     }
-    */
-
-    fflush(stdin);
-    printf("\nIngrese la palabra clave para buscar tarea: ");
-    gets(palabraClave);
-    BuscarTarea(arregloTareas, palabraClave, cantTareas);
-
 
     return 0;
 }
+
+
+//----------------------------------------------------------------
 
 void cargarTareas(Tarea **arreglo, int cantidad)
 {
@@ -78,6 +100,7 @@ void cargarTareas(Tarea **arreglo, int cantidad)
     
 }
 
+
 void mostrarTarea(Tarea *arreglo)
 {
 
@@ -87,6 +110,7 @@ void mostrarTarea(Tarea *arreglo)
     printf("\nDuracion: %d", arreglo->Duracion);
     printf("\n");
 }
+
 
 void moverTareas(Tarea **pendientes, Tarea **realizadas, int cantidad)
 {
@@ -112,7 +136,8 @@ void moverTareas(Tarea **pendientes, Tarea **realizadas, int cantidad)
     
 }
 
-void BuscarTarea(Tarea **arreglo, char *palabraClave, int cantidad)
+
+void BusquedaPorPalabra(Tarea **arreglo, char *palabraClave, int cantidad)
 {
     int contador=0;
 
@@ -124,10 +149,31 @@ void BuscarTarea(Tarea **arreglo, char *palabraClave, int cantidad)
             mostrarTarea((*(arreglo + i)));
             contador++;
         }
+    }
 
-        if (contador == 0)
+    if (contador == 0)
         {
             printf("No se encontraron coincidencias.");
         }
+}
+
+
+void BusquedaPorID(Tarea **arreglo, int idBuscado, int cantidad)
+{
+    printf("\nTarea encontrada: \n");
+    int contador = 0;
+    for (int i = 0; i < cantidad; i++)
+    {
+        if ((*(arreglo + i))->TareaID == idBuscado)
+        {
+            mostrarTarea((*(arreglo+i)));
+            contador++;
+        }
+        
     }
+    if (contador == 0)
+    {
+        printf("No se encontraron coincidencias.");
+    }
+    
 }
